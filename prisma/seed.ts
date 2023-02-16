@@ -33,17 +33,18 @@ async function seed() {
                 }
             })
         })
+        
     )
 
     await Promise.all(
-        getBooks().map((book) => {
+        getBooks().map((book, index) => {
             const { title, isFiction, datePublished } = book;
             return db.book.create({
                 data: {
                     title,
                     isFiction,
                     datePublished,
-                    authorId: author.id
+                    authorId: index + 1
                 }
             })
         })
@@ -59,6 +60,7 @@ async function seed() {
     })
 }
 
+seed();
 /**
  * @function
  * @name getBooks
