@@ -60,3 +60,43 @@ authorRouter.post(
             return response.status(500).json(error.message);
         }
 })
+
+/**
+ * @PUT
+ * @description updating an author first and last name by authors id
+ * */ 
+
+authorRouter.put(
+    '/:id',
+    body("firstName").isString(),
+    body("lastName").isString(),
+    async(request: Request, response: Response) => {
+        const errors = validationResult(request);
+        if(!errors.isEmpty()) {
+            return response.status(400).json({ errors: errors.array() })
+        }
+
+        const id: number = parseInt(request.params.id, 10);
+
+        try {
+            const author = request.body;
+            const updatedAuthor = await AuthorService.updateAuthor(author, id);
+            return response.status(200).json(updatedAuthor);
+        }
+
+        catch(error: any) {
+            return response.status(500).json(error.message);
+        }
+
+    }
+);
+
+authorRouter.delete('/:id', async (request: Request, response: Response) => {
+    const id: number = parseInt(request.params.id, 10)
+    try{
+        const deletedAuthor = await AuthorService.deleteAuthor(id);
+        return response.status(200).json(`This is author:MR. ${deletedAuthor.lastName} is no more existing our DB`);
+    } catch(error: any) {
+        return response.status(500).json(error.message)
+    }
+});

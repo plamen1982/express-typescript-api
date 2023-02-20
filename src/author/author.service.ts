@@ -57,10 +57,15 @@ export const updateAuthor = async (author: Omit<Author, "id">, id: number): Prom
     })
 }
 
-export const deleteAuthor = async (id: number): Promise<void> => {
-     db.author.delete({
+export const deleteAuthor = async (id: number): Promise<Author> => {
+    return db.author.delete({
         where: {
             id,
+        },
+        select: {
+            id: true,
+            firstName: true,
+            lastName: true
         }
     })
 }
