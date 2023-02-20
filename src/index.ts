@@ -18,7 +18,9 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use('/api/authors', authorRouter)
+
+app.use('/api/authors', authorRouter);
+
 app.listen(PORT, () => {
     console.log(`Server is Listening on port ${PORT}`);
 })
